@@ -1,0 +1,15 @@
+<div class="products-list">
+  <div class="product" *ngFor="let product of displayedProducts" (click)="goToProductDetail(product.id)">
+    <img [src]="product.image" alt="{{product.name}}">
+    <h3>{{product.name}}</h3>
+    <p>{{product.description}}</p>
+    <p>{{product.price | currency}}</p>
+  </div>
+</div>
+
+<mat-paginator
+  [length]="products.length"
+  [pageSize]="pageSize"
+  [pageSizeOptions]="[9]"
+  (page)="handlePageEvent($event)">
+</mat-paginator>
