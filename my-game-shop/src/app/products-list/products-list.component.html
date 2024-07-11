@@ -1,15 +1,72 @@
-<div class="products-list">
-  <div class="product" *ngFor="let product of displayedProducts" (click)="goToProductDetail(product.id)">
-    <img [src]="product.image" alt="{{product.name}}">
-    <h3>{{product.name}}</h3>
-    <p>{{product.description}}</p>
-    <p>{{product.price | currency}}</p>
+<div class="container-page">
+  <div class="search-container">
+    <mat-form-field class="search-field" appearance="fill">
+      <mat-label>Buscar produtos</mat-label>
+      <input type="text" matInput [formControl]="searchControl" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let product of filteredOptions | async" [value]="product.name" (onSelectionChange)="redirectToProductDetail(product.id)">
+          {{ product.name }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
   </div>
-</div>
 
-<mat-paginator
-  [length]="products.length"
-  [pageSize]="pageSize"
-  [pageSizeOptions]="[9]"
-  (page)="handlePageEvent($event)">
-</mat-paginator>
+  <div class="product-list">
+
+    <div class="console-products">
+      <h2>Consoles</h2>
+      <div class="grid-container">
+        <div *ngFor="let product of pagedConsoleProducts" class="product-item">
+          <h2>{{ product.name }}</h2>
+          <p>Preço: <strong>R${{ product.price }}</strong></p>
+          <img [src]="product.image" alt="{{ product.name }}">
+          <p>{{ product.description }}</p>
+          <p>
+            <mat-chip-list>
+              <mat-chip *ngFor="let tag of product.tags">{{ tag }}</mat-chip>
+            </mat-chip-list>
+          </p>
+          <p>
+            <button mat-button color="primary" (click)="goToProductDetail(product.id)">Ver detalhes</button>
+          </p>
+        </div>
+      </div>
+      <mat-paginator
+        [length]="filteredConsoleProducts.length"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="pageSizeOptions"
+        (page)="pageEventConsole($event)">
+      </mat-paginator>
+    </div>
+
+    <div class="game-products">
+      <h2>Games</h2>
+      <div class="grid-container">
+        <div *ngFor="let product of pagedGameProducts" class="product-item">
+          <h2>{{ product.name }}</h2>
+          <p>Preço: <strong>R${{ product.price }}</strong></p>
+          <img [src]="product.image" alt="{{ product.name }}">
+          <p>{{ product.description }}</p>
+          <p>
+            <mat-chip-list>
+              <mat-chip *ngFor="let tag of product.tags">{{ tag }}</mat-chip>
+            </mat-chip-list>
+          </p>
+          <p>
+            <button mat-button color="primary" (click)="goToProductDetail(product.id)">Ver detalhes</button>
+          </p>
+        </div>
+      </div>
+      <mat-paginator
+        [length]="filteredGameProducts.length"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="pageSizeOptions"
+        (page)="pageEventGame($event)">
+      </mat-paginator>
+    </div>
+
+  </div>
+
+
+
+</div>

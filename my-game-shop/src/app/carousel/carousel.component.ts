@@ -1,30 +1,27 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import Swiper from 'swiper';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-carousel',
   templateUrl: './carousel.component.html',
   styleUrls: ['./carousel.component.scss']
 })
-export class CarouselComponent implements AfterViewInit {
+export class CarouselComponent implements OnInit {
+  images: string[] = [
+    'https://i.ibb.co/gZvyX46/banner-1.jpg',
+    'https://i.ibb.co/k6W0B5G/banner-2.jpg',
+    'https://i.ibb.co/L5nH3Mq/banner-3.jpg'
+  ];
+  currentIndex = 0;
 
-  @ViewChild('swiper', { static: true }) swiper!: any;
+  constructor() {}
 
-  ngAfterViewInit(): void {
-    const swiper = new Swiper('.swiper-container', {
-      loop: true,
-      autoplay: {
-        delay: 3000,
-        disableOnInteraction: false
-      },
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true
-      },
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev'
-      }
-    });
+  ngOnInit(): void {
+    setInterval(() => {
+      this.nextSlide();
+    }, 3000);
+  }
+
+  nextSlide() {
+    this.currentIndex = (this.currentIndex + 1) % this.images.length;
   }
 }

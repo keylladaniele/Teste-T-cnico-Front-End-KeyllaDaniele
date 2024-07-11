@@ -1,37 +1,21 @@
-<mat-sidenav-container>
-  <mat-sidenav #sidenav mode="side" position="end" opened>
-    <h3>Itens do Carrinho</h3>
-    <div *ngIf="cartService.getItems().length > 0; else emptyCart">
-      <div *ngFor="let item of cartService.getItems(); let i = index">
-        <div class="cart-item">
-          <img [src]="item.image" alt="{{ item.productName }}" width="50">
-          <div class="item-details">
-            <p>{{ item.productName }}</p>
-            <p>\${{ item.price }}</p>
-            <mat-form-field appearance="outline">
-              <input matInput type="number" [(ngModel)]="item.quantity" min="1">
-            </mat-form-field>
-            <button mat-icon-button color="warn" (click)="removeFromCart(i)">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </div>
-        </div>
-      </div>
-      <button mat-raised-button color="primary" (click)="checkout()">Finalizar Compra</button>
-    </div>
-    <ng-template #emptyCart>
-      <p>Seu carrinho está vazio!</p>
-    </ng-template>
-  </mat-sidenav>
-
-  <mat-sidenav-content>
-    <div>
-      <button mat-raised-button color="primary" (click)="goBack()">Voltar</button>
-      <h1>{{ product?.name }}</h1>
-      <img [src]="product?.image" alt="{{ product?.name }}">
-      <p>{{ product?.description }}</p>
-      <p>\${{ product?.price }}</p>
-      <button mat-raised-button color="primary" (click)="addToCart()">Adicionar ao Carrinho</button>
-    </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+<div class="product-details-container">
+  <app-cart></app-cart>
+  <button mat-raised-button color="primary" (click)="goBack()">Voltar</button>
+  <div class="product-details">
+    <h1>{{ product?.name }}</h1>
+    <img [src]="product?.image" alt="{{ product?.name }}" class="product-image">
+    <p class="product-description">{{ product?.description }}</p>
+    <p class="product-price">R$ {{ product?.price }}</p>
+    <p>
+      <mat-chip-list>
+        <mat-chip *ngFor="let tag of product?.tags">{{ tag }}</mat-chip>
+      </mat-chip-list>
+    </p>
+    <p>
+      <button mat-raised-button color="primary" (click)="addToCart()">
+        <mat-icon>shopping_cart</mat-icon>
+        Adicionar ao Carrinho
+      </button>
+    </p>
+  </div>
+</div>

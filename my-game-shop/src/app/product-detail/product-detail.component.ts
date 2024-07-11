@@ -1,8 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { CartService } from '../services/cart.service';
-import { MatSidenav } from '@angular/material/sidenav';
 import { ProductService } from '../services/product.service';
 
 interface Product {
@@ -11,6 +10,8 @@ interface Product {
   description: string;
   price: number;
   image: string;
+  type: string;
+  tags: string[];
 }
 
 @Component({
@@ -21,16 +22,12 @@ interface Product {
 export class ProductDetailComponent implements OnInit {
   product: Product | undefined;
 
-  products: Product[] = [];
-
-  @ViewChild('sidenav') sidenav!: MatSidenav;
-
   constructor(
     private route: ActivatedRoute,
     private location: Location,
     public cartService: CartService,
     private productService: ProductService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     const productIdParam = this.route.snapshot.paramMap.get('id');
@@ -45,13 +42,16 @@ export class ProductDetailComponent implements OnInit {
   addToCart() {
     if (this.product) {
       this.cartService.addToCart({
-        productId: this.product.id,
-        productName: this.product.name,
-        quantity: 1,
+        id: this.product.id,
+        name: this.product.name,
+        description: this.product.description,
         price: this.product.price,
-        image: this.product.image
+        image: this.product.image,
+        type: this.product.type,
+        tags: this.product.tags,
+        quantity: 1
       });
-      this.sidenav.open();
+      console.log('Produto adicionado ao carrinho:', this.product.name);
     } else {
       console.error('Product is not defined');
     }
@@ -59,17 +59,5 @@ export class ProductDetailComponent implements OnInit {
 
   goBack(): void {
     this.location.back();
-  }
-
-  clearCart(): void {
-    this.cartService.clearCart();
-  }
-
-  removeFromCart(index: number): void {
-    this.cartService.removeFromCart(index);
-  }
-
-  checkout(): void {
-    console.log('Checkout clicked');
   }
 }

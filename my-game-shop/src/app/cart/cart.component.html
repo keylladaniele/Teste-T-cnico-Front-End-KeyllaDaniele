@@ -1,1 +1,31 @@
-<p>cart works!</p>
+<mat-sidenav #sidenav mode="side" position="end" [opened]="cartService.isCartOpen$ | async">
+  <h2>Itens do Carrinho</h2>
+  <div *ngIf="cartItems.length > 0; else emptyCart">
+    <div *ngFor="let item of cartItems; let i = index">
+      <div class="cart-item">
+        <img [src]="item.image" alt="{{ item.name }}" width="50">
+        <div class="item-details">
+          <p><strong>{{ item.name }}</strong></p>
+          <p>R$ {{ item.price }}</p>
+          <mat-form-field appearance="outline">
+            <input matInput type="number" [(ngModel)]="item.quantity" min="1" (ngModelChange)="updateCart()">
+          </mat-form-field>
+          <button mat-icon-button color="warn" (click)="removeFromCart(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="totals">
+      <p><strong>Total de Produtos:</strong> {{ totalQuantity }}</p>
+      <p><strong>Total da Compra</strong>: R$ {{ totalPrice.toFixed(2) }}</p>
+    </div>
+    <div class="button-container">
+      <button mat-raised-button color="primary" (click)="checkout()">Finalizar Compra</button>
+      <button mat-raised-button color="warn" (click)="clearCart()">Limpar Carrinho</button>
+    </div>
+  </div>
+  <ng-template #emptyCart>
+    <p>Seu carrinho está vazio!</p>
+  </ng-template>
+</mat-sidenav>

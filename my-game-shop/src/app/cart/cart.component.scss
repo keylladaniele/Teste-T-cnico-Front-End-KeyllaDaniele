@@ -1,0 +1,15 @@
+.mat-drawer {
+  box-shadow: rgba(128, 0, 128, 0.5) 0px 0px 10px;
+  width: 380px;
+  position: fixed;
+  transition: width 0.3s ease;
+  padding: 20px;
+}
+
+.mat-drawer.mat-drawer-end-opened {
+  overflow-y: auto;
+}
+
+.button-container {
+  display: flex;
+}
