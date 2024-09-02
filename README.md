@@ -1,4 +1,4 @@
-# Teste-Tecnico-Front-End-KeyllaDaniele
+# My Game Shop
 
 # Descrição
 My Game Shop é uma aplicação de exemplo desenvolvida para demonstrar funcionalidades básicas de um e-commerce de jogos. A aplicação permite listar produtos, visualizar detalhes dos produtos, adicionar produtos ao carrinho, calcular a quantidade total de itens no carrinho e o valor total da compra.
